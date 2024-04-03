@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>chat app</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js" integrity="sha512-Xm9qbB6Pu06k3PUwPj785dyTl6oHxgsv9nHp7ej7nCpAqGZT3OZpsELuCYX05DdonFpTlBpXMOxjavIAIUwr0w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <div class="screen join-screen active">
+      <div class="form">
+        <h2>Join Chatroom</h2>
+        <div class="form-input">
+          <label>Username</label>
+          <input type="text" id="login-username">
+        </div>
+        <div class="form-input">
+          <label>Password</label>
+          <input type="password" id="login-password">
+        </div>
+        <div class="form-input">
+          <button id="join-user">Join chat</button>
+          <p class="login-problem"></p>
+        </div>
+
+        <h2>Register</h2>
+        <div class="form-input">
+          <label>Username</label>
+          <input type="text" id="register-username">
+        </div>
+        <div class="form-input">
+          <label>Email</label>
+          <input type="email" id="register-email">
+        </div>
+        <div class="form-input">
+          <label>Password</label>
+          <input type="password" id="register-password">
+        </div>
+        <div class="form-input">
+          <button id="register-user" onclick="registerUser()">Register</button>
+          <p class="error-message"></p>
+        </div>
+      </div>
+    </div>
+    <div class="screen chat-screen">
+      <div class="header">
+        <div class="logo">Chatroom</div>
+        <p class="activity"></p>
+        <button id="exit-chat">Exit</button>
+      </div>
+      <div class="messages">
+        <!--<div class="message my-message">
+          <div>
+            <div class="name">You</div>
+            <div class="text">Hi</div>
+          </div>
+        </div>
+        <div class="update">
+          ABC is joined the conversation
+        </div>
+        <div class="message other-message">
+          <div>
+            <div class="name">ABV</div>
+            <div class="text">Hi</div>
+          </div>
+        </div>-->
+      </div>
+      <div class="typebox">
+        <i class="far fa-comment"></i>
+        <input type="text" id="message-input">
+        <button id="send-message">Send</button>
+      </div>
+    </div>
+  </div>
+<script src="register.js"></script>  
+<script src="script.js"></script> 
+</body>
+</html>
