@@ -5,7 +5,7 @@ const userController = require('../controllers/usersController');
 
 router.post('/auth/register', async (req, res) => {
   const { username, email, password } = req.body;
-
+  
   try {
     const existingUser = await userController.getUserByUsername(username);
 

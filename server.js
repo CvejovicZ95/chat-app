@@ -1,10 +1,10 @@
 const express=require('express');
 const path=require('path');
-const connect=require('./connectDB');
+const connect=require('./src/db/connectDB');
 const bodyParser = require('body-parser');
-const usersRoutes = require('./routes/usersRoutes');
+const usersRoutes = require('./src/routes/usersRoutes');
 
-const {saveMessage,loadMessage}=require('./controllers/messageController');
+const {saveMessage,loadMessage}=require('./src/controllers/messageController');
 
 const app=express();
 const server=require('http').createServer(app);
