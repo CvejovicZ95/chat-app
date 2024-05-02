@@ -3,15 +3,10 @@ const chatapp = () => {
   const socket = io();
 
   let uname;
-  let authToken = localStorage.getItem('authToken');
-  console.log('Token:', authToken);
-    if (authToken) {
-      console.log('Found existing authToken:', authToken);
-    }
+  localStorage.getItem('authToken');
 
   socket.on('connect', () => {
     socket.on('load-messages', (messages) => {
-      console.log('Received messages from server:', messages);
 
       messages.forEach((message) => {
         if (message.username === uname) {
@@ -20,8 +15,6 @@ const chatapp = () => {
           renderMessage('other', message);
         }
       });
-
-      console.log('Messages rendered on the client side');
     });
   });
 
@@ -34,17 +27,14 @@ const chatapp = () => {
     if (storedUsername) {
       joinScreen.classList.remove('active');
       chatScreen.classList.add('active');
-      uname = storedUsername; // Dodao sam ovo kako bi se postavilo trenutno korisničko ime
-      // Pozivam funkciju koja povezuje korisnika i učitava poruke
-      console.log(uname)
+      uname = storedUsername;
       await connectAndLoadMessages(uname,'');
     } else {
       joinScreen.classList.add('active');
       chatScreen.classList.remove('active');
     }
-  })
+  });
   
-
   const connectAndLoadMessages = async (username,password) => {
     
     try {
@@ -57,11 +47,7 @@ const chatapp = () => {
         body: JSON.stringify({ username, password }),
       });
 
-      const result = await response.json()
-
-      console.log('Server response:', result);
-      console.log(`${username} conn`)
-      console.log('Token:', authToken);
+      const result = await response.json();
       if (result.success===true) {
         localStorage.setItem('username', username);
         localStorage.setItem('authToken', result.token);
@@ -72,24 +58,21 @@ const chatapp = () => {
         app.querySelector('.join-screen').classList.remove('active');
         app.querySelector('.chat-screen').classList.add('active');
       } else {
-        app.querySelector('.join-screen .login-problem').innerHTML='Incorrect username or password, please double-check your login credentials. If you dont have an account, you must register to proceed.'
+        app.querySelector('.join-screen .login-problem').innerHTML='Incorrect username or password, please double-check your login credentials. If you dont have an account, you must register to proceed.';
       }
     } catch (error) {
-      //console.error("Error during login:", error);
-      alert('An error occurred during login. Please check the console for details.');
+      alert('An error occurred during login.');
       throw error;
     }
   };
 
   app.querySelector('.join-screen #join-user').addEventListener('click', async () => {
-    let username = app.querySelector('.join-screen #login-username').value;
-    let password = app.querySelector('.join-screen #login-password').value;
+    const username = app.querySelector('.join-screen #login-username').value;
+    const password = app.querySelector('.join-screen #login-password').value;
     if (username.length == 0 || password.length == 0) {
       alert('Please fill in both username and password.');
       return;
     }
-
-    // Pozivam funkciju koja povezuje korisnika i učitava poruke
     connectAndLoadMessages(username, password);
   });
 
@@ -99,21 +82,17 @@ const chatapp = () => {
     document.querySelector('.chat-screen').classList.add('hidden');
     document.querySelector('.join-screen').classList.add('active');
     app.querySelector('.join-screen .login-problem').innerHTML='';
-    let username=document.querySelector('.join-screen #login-username').value
-    let password=document.querySelector('.join-screen #login-password').value
-    username.innerHTML=''
-    password.innerHTML=''
+    const username=document.querySelector('.join-screen #login-username').value;
+    const password=document.querySelector('.join-screen #login-password').value;
+    username.innerHTML='';
+    password.innerHTML='';
     
-
-
-    // Optional
-    //console.log(`${uname} disc`)
     localStorage.removeItem('username');
     localStorage.removeItem('authToken');
   });
 
   app.querySelector('.chat-screen #send-message').addEventListener('click', () => {
-    let message = app.querySelector('.chat-screen #message-input').value;
+    const message = app.querySelector('.chat-screen #message-input').value;
 
     if (message.length == 0) {
       return;
@@ -143,6 +122,7 @@ const chatapp = () => {
   messageInput.addEventListener('keypress', () => {
     socket.emit('activity', uname);
   });
+
   let activityTimer;
   socket.on('activity', (activityUname) => {
     const activity = document.querySelector('.activity');
@@ -154,13 +134,13 @@ const chatapp = () => {
   });
 
   function renderMessage(type, message) {
-    let messageContainer = document.querySelector('.chat-screen .messages');
+    const messageContainer = document.querySelector('.chat-screen .messages');
     if (type == 'my') {
-      let time = new Intl.DateTimeFormat('default', {
+      const time = new Intl.DateTimeFormat('default', {
         hour: 'numeric',
         minute: 'numeric'
       }).format(new Date());
-      let el = document.createElement('div');
+      const el = document.createElement('div');
       el.setAttribute('class', 'message my-message');
       el.innerHTML = `
       <div>
@@ -171,11 +151,11 @@ const chatapp = () => {
 
       messageContainer.appendChild(el);
     } else if (type == 'other') {
-      let time = new Intl.DateTimeFormat('default', {
+      const time = new Intl.DateTimeFormat('default', {
         hour: 'numeric',
         minute: 'numeric'
       }).format(new Date());
-      let el = document.createElement('div');
+      const el = document.createElement('div');
       el.setAttribute('class', 'message other-message');
       el.innerHTML = `
       <div>
@@ -186,16 +166,14 @@ const chatapp = () => {
 
       messageContainer.appendChild(el);
     } else if (type == 'update') {
-      let el = document.createElement('div');
+      const el = document.createElement('div');
       el.setAttribute('class', 'update');
       el.innerHTML = message;
       messageContainer.appendChild(el);
     }
     messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
   }
-
-  // localStorage.clear()
-}
+};
 
 chatapp();
 

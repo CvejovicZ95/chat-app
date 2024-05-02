@@ -1,3 +1,4 @@
+ 
 async function registerUser() {
   const usernameInput = document.getElementById("register-username");
   const emailInput = document.getElementById("register-email");
@@ -8,10 +9,8 @@ async function registerUser() {
   const email = emailInput.value;
   const password = passwordInput.value;
 
-  // Resetujemo poruke o greškama pre svakog novog pokušaja registracije
   error.innerHTML = '';
 
-  
   if (!username) {
     error.innerHTML = 'Please enter a username';
     return;
@@ -20,7 +19,7 @@ async function registerUser() {
     return;
   }
 
-  const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   ;
   if (!emailRegex.test(email)) {
     error.innerHTML = 'Invalid email format';
@@ -34,7 +33,6 @@ async function registerUser() {
   }
 
   try {
-    // Slanje registracionih podataka na server
     const response = await fetch("/auth/register", {
       method: "POST",
       headers: {
@@ -57,3 +55,4 @@ async function registerUser() {
     console.error("Error during registration:", error);
   }
 }
+  

@@ -3,21 +3,18 @@ const User = require('../models/usersSchema');
 
 const saveMessage = async (username, text) => {
   try {
-    const user = await User.findOne({ username }); // Pronađi korisnika prema korisničkom imenu
+    const user = await User.findOne({ username });
     if (!user) {
       console.error(`User with username ${username} not found`);
       return;
     }
 
-    const newMessage = new Message({ username, text }); // Koristi ID korisnika umesto korisničkog imena
+    const newMessage = new Message({ username, text });
     await newMessage.save();
   } catch (err) {
     console.error('Error while saving message', err);
   }
 };
-
-// ...
-
 
 const loadMessage = async () => {
   try {

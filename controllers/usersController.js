@@ -1,4 +1,4 @@
-const bcrypt=require('bcrypt')
+const bcrypt=require('bcrypt');
 const User = require('../models/usersSchema');
 
 const registerUser = async (username, email, password) => {
@@ -19,9 +19,7 @@ const registerUser = async (username, email, password) => {
 };
 
 const loginUser = async (username, password) => {
-  try {
     const user = await User.findOne({ username });
-
     if (user) {
       const passwordMatch = await comparePassword(password, user.password);
       if (passwordMatch) {
@@ -32,10 +30,7 @@ const loginUser = async (username, password) => {
     } else {
       return null; 
     }
-  } catch (err) {
-    console.error('Error while logging in user', err);
-    throw err;
-  }
+ 
 };
 
 const isValidPassword = (password) => {
@@ -45,38 +40,30 @@ const isValidPassword = (password) => {
 
 
 const isValidEmail = (email) => {
-  const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   ;
   return emailRegex.test(email);
 };
 
 const hashPassword = async (password) => {
-  try {
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-    return hashedPassword;
-  } catch (error) {
-    throw error;
-  }
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  return hashedPassword;
 };
 
 const comparePassword = async (password, hashedPassword) => {
-  try {
-    const match = await bcrypt.compare(password, hashedPassword);
-    return match;
-  } catch (error) {
-    throw error;
-  }
+  const match = await bcrypt.compare(password, hashedPassword);
+  return match;
 };
 
 const getUserByUsername = async (username) => {
-  try {
     const user = await User.findOne({ username });
-    return user;
-  } catch (err) {
-    console.error('Error while fetching user by username', err);
-    throw err;
-  }
+    if(user){
+      return user;
+    }else{
+      return null;
+    }
+    
 };
 
 module.exports = {
