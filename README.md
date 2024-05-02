@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project involves an app where registered users can chat with other useres in chat room.
+This project involves an app where registered users can chat with other users in chat room.
 
 ## Features
 
