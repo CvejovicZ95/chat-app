@@ -8,7 +8,6 @@ This project involves an app where registered users can chat with other users in
 
 - **Authentication:**
   - For authentication, Json Web Tokens (JWT) are used.
-  - JWT is saved in local storage and sent on request where necessary.
 - **Users:**
   - Sign up
   - Log in
